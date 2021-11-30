@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.mathquiz.app.ui.home.viewmodel.QuizViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.home.fragments.QuizFragment">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/toolBarTitle"
+            android:layout_width="match_parent"
+            style="@style/BaseTextView.Title"
+            android:text="@string/title_questions"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textFirstNumber"
+            style="@style/BaseTextView.Question"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@{String.valueOf(viewModel.firstNumber)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolBarTitle" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            bindOperationImage="@{viewModel.operation}"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="@id/textFirstNumber"
+            app:layout_constraintEnd_toStartOf="@id/textSecondNumber"
+            app:layout_constraintStart_toEndOf="@id/textFirstNumber"
+            app:layout_constraintTop_toTopOf="@id/textFirstNumber" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSecondNumber"
+            style="@style/BaseTextView.Question"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@{String.valueOf(viewModel.secondNumber)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolBarTitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textAnswer1"
+            style="@style/BaseTextView.Answer"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:onClick="@{()->viewModel.submitAnswer(0)}"
+            android:text="@{String.valueOf(viewModel.firstAnswer)}"
+            app:layout_constraintEnd_toStartOf="@id/textAnswer2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textFirstNumber" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textAnswer2"
+            style="@style/BaseTextView.Answer"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:onClick="@{()->viewModel.submitAnswer(1)}"
+            android:text="@{String.valueOf(viewModel.secondAnswer)}"
+            app:layout_constraintEnd_toStartOf="@id/textAnswer3"
+            app:layout_constraintStart_toEndOf="@id/textAnswer1"
+            app:layout_constraintTop_toTopOf="@id/textAnswer1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textAnswer3"
+            style="@style/BaseTextView.Answer"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:onClick="@{()->viewModel.submitAnswer(2)}"
+            android:text="@{String.valueOf(viewModel.thirdAnswer)}"
+            app:layout_constraintEnd_toStartOf="@id/textAnswer4"
+            app:layout_constraintStart_toEndOf="@id/textAnswer2"
+            app:layout_constraintTop_toTopOf="@id/textAnswer1" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textAnswer4"
+            style="@style/BaseTextView.Answer"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:onClick="@{()->viewModel.submitAnswer(3)}"
+            android:text="@{String.valueOf(viewModel.fourthAnswer)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textAnswer3"
+            app:layout_constraintTop_toTopOf="@id/textAnswer1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/black20"
+            app:layout_constraintBottom_toTopOf="@id/layoutBottom" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:text="@{viewModel.quizNumber}"
+                android:textSize="@dimen/_18ssp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewSecond"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textSize="@dimen/_18ssp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

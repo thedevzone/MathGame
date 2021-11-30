@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Math Quiz</string>
+    <string name="btn_start">Start</string>
+    <string name="label_math_nquiz">Math\nQuiz</string>
+    <string name="title_questions">Questions</string>
+    <string name="title_result">Result</string>
+    <string name="label_score">Score</string>
+    <string name="btn_done">Done</string>
+</resources>
