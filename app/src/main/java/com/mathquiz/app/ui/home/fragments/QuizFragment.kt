@@ -2,7 +2,6 @@ package com.mathquiz.app.ui.home.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,9 +56,8 @@ class QuizFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         addObserver()
-        timerStart()
+        viewModel.timerStart()
     }
 
     private fun addObserver() {
@@ -68,49 +66,12 @@ class QuizFragment : BaseFragment() {
             fragment.arguments = bundleOf(Constants.RESULTS to viewModel.getResults())
             loadFragment(fragment)
         }
-
-        viewModel.resetTimerObserver.observe(this) {
-            cancelTimer()
-            timerStart()
-        }
-    }
-
-    private var countDownTimer: CountDownTimer? = null
-    private fun timerStart(timeDifference: Long = 30000) {
-        if (countDownTimer == null) {
-            countDownTimer = object : CountDownTimer(timeDifference, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    var seconds = (millisUntilFinished / 1000).toInt()
-                    val hours = seconds / (60 * 60)
-                    val tempMint = seconds - hours * 60 * 60
-                    val minutes = tempMint / 60
-                    seconds = tempMint - minutes * 60
-                    try {
-                        val sec = if (seconds > 9) "$seconds" else "0$seconds"
-                        binding.textViewSecond.text = sec
-                    } catch (e: Exception) {
-                    }
-                }
-
-                override fun onFinish() {
-                    try {
-                        viewModel.setupNewQuestion()
-                    } catch (e: Exception) {
-                    }
-                }
-            }.start()
-        }
-    }
-
-    private fun cancelTimer() {
-        countDownTimer?.cancel()
-        countDownTimer = null
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        cancelTimer()
+        viewModel.cancelTimer()
     }
 
 }

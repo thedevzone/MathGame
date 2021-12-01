@@ -19,8 +19,8 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/toolBarTitle"
-            android:layout_width="match_parent"
             style="@style/BaseTextView.Title"
+            android:layout_width="match_parent"
             android:text="@string/title_questions"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -129,6 +129,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_weight="1"
                 android:gravity="end"
+                android:text="@{viewModel.textSecond}"
                 android:textSize="@dimen/_18ssp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

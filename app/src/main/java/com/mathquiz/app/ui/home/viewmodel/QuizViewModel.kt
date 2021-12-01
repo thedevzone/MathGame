@@ -1,5 +1,6 @@
 package com.mathquiz.app.ui.home.viewmodel
 
+import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mathquiz.app.model.Operation
@@ -8,6 +9,7 @@ import com.mathquiz.app.utils.RandomUtils
 import com.mathquiz.app.utils.value
 
 class QuizViewModel : ViewModel() {
+    private var countDownTimer: CountDownTimer? = null
 
     private val results = ArrayList<QuizResult>()
 
@@ -34,6 +36,9 @@ class QuizViewModel : ViewModel() {
     private val _fourthAnswer = MutableLiveData(0)
     val fourthAnswer = _fourthAnswer
 
+    private val _textSecond = MutableLiveData("")
+    val textSecond = _textSecond
+
     private var quizCount = 0
     private val list = ArrayList<Int>()
 
@@ -41,7 +46,6 @@ class QuizViewModel : ViewModel() {
     val quizNumber = _quizNumber
 
     val quizFinishedObserver = MutableLiveData<Unit>()
-    val resetTimerObserver = MutableLiveData<Unit>()
 
     init {
         setupQuestion()
@@ -53,7 +57,8 @@ class QuizViewModel : ViewModel() {
         } else {
             try {
                 list.clear()
-                resetTimerObserver.postValue(Unit)
+                cancelTimer()
+                timerStart()
                 _firstNumber.value = RandomUtils.getRandom(0, 9)
                 _operation.value = Operation.getOperation()
                 _secondNumber.value = RandomUtils.getRandom(0, 9)
@@ -66,6 +71,11 @@ class QuizViewModel : ViewModel() {
                 setupQuestion()
             }
         }
+    }
+
+    fun cancelTimer() {
+        countDownTimer?.cancel()
+        countDownTimer = null
     }
 
     fun setupNewQuestion() {
@@ -139,4 +149,30 @@ class QuizViewModel : ViewModel() {
         )
         setupQuestion()
     }
+
+    fun timerStart(timeDifference: Long = 30000) {
+        if (countDownTimer == null) {
+            countDownTimer = object : CountDownTimer(timeDifference, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    var seconds = (millisUntilFinished / 1000).toInt()
+                    val hours = seconds / (60 * 60)
+                    val tempMint = seconds - hours * 60 * 60
+                    val minutes = tempMint / 60
+                    seconds = tempMint - minutes * 60
+                    try {
+                        _textSecond.value = if (seconds > 9) "$seconds" else "0$seconds"
+                    } catch (e: Exception) {
+                    }
+                }
+
+                override fun onFinish() {
+                    try {
+                        setupNewQuestion()
+                    } catch (e: Exception) {
+                    }
+                }
+            }.start()
+        }
+    }
+
 }
